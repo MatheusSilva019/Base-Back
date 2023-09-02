@@ -14,6 +14,10 @@ const start = (app) => {
     const routes = require(directory + "/" + file)
     routes(router)
   }
+  
+  router.route("/ping").all((req, res) => {
+    res.status(200).send("Pong")
+  })
 
   const route = "/:route"
   const api = require("../api/base")
@@ -21,9 +25,6 @@ const start = (app) => {
   router.route(route).all(auth.validate).get(api.get).post(api.insert)
   router.route(`${route}/:id`).all(auth.validate).patch(api.update).delete(api.remove)
 
-  router.route("/ping").all((req, res) => {
-    res.status(200).send("Pong")
-  })
 
   router.route("/").all((req, res) => {
     res.sendStatus(204)
